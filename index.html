@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual Operativo · La Agencia</title>
+  <style>
+    html,body{margin:0;padding:0;width:100%;height:100%;background:#0b0b0b;color:#e7dfd3;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
+    #app{position:fixed;inset:0}
+    #frame{width:100%;height:100%;border:none;background:#0b0b0b}
+    #loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 35%,rgba(215,180,106,.08),transparent 35%),#0b0b0b;color:#f1d899;letter-spacing:.18em;text-transform:uppercase;font-size:12px;z-index:2}
+    #loading.hidden{display:none}
+  </style>
+</head>
+<body>
+  <div id="loading">Cargando manual…</div>
+  <div id="app">
+    <iframe id="frame" src="/index.html.html" title="Manual Operativo"></iframe>
+  </div>
+
+  <script>
+    const frame = document.getElementById('frame');
+    const loading = document.getElementById('loading');
+
+    const injectedCss = `
+      :root{
+        --bg:#0b0b0b !important;
+        --bg2:#141414 !important;
+        --bg3:#1d1d1d !important;
+        --border:#3a342c !important;
+        --gold:#d7b46a !important;
+        --gold-dim:#8b6c35 !important;
+        --gold-light:#f1d899 !important;
+        --text:#e7dfd3 !important;
+        --text-dim:#a79a86 !important;
+        --text-bright:#fbf7ef !important;
+      }
+      body{font-size:19px !important;line-height:1.78 !important;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+      #sidebar{background:linear-gradient(180deg,#161616 0%,#121212 100%) !important;border-right:1px solid var(--border) !important;box-shadow:12px 0 40px rgba(0,0,0,.22) !important}
+      #sidebar-logo{padding:38px 30px 30px !important}
+      .logo-badge{font-weight:700 !important;background:rgba(215,180,106,.05) !important}
+      .logo-title{font-size:22px !important;color:var(--text-bright) !important}
+      .logo-sub{color:var(--text-dim) !important}
+      .nav-block{font-size:10px !important;color:#b8aa95 !important;font-weight:700 !important;padding:22px 30px 8px !important}
+      .nav-item{font-size:14px !important;color:#cbbfad !important;padding:11px 30px !important;border-left:3px solid transparent !important;font-weight:500 !important}
+      .nav-item:hover{color:var(--text-bright) !important;background:rgba(215,180,106,.06) !important;border-left-color:var(--gold-dim) !important}
+      .nav-item.active{color:var(--text-bright) !important;background:rgba(215,180,106,.12) !important;border-left-color:var(--gold) !important;font-weight:600 !important}
+      .nav-item.active .nav-num{color:var(--gold-light) !important}
+      .chapter{max-width:1180px !important;padding:76px 104px 104px 86px !important}
+      .ch-title{font-size:clamp(40px,4.6vw,62px) !important;color:var(--text-bright) !important}
+      .ch-desc{font-size:16px !important;color:#b8aa95 !important;max-width:72ch !important}
+      .ch-lead{font-size:28px !important;color:var(--gold-light) !important}
+      h2.st{font-size:32px !important;color:var(--text-bright) !important}
+      h3.ss{font-size:25px !important;color:var(--text-bright) !important}
+      p{font-size:19px !important;line-height:1.82 !important;color:var(--text) !important;max-width:74ch !important}
+      .letter p{font-size:24px !important;line-height:1.82 !important}
+      .cover-subtitle{font-size:24px !important;color:#cfc1ad !important}
+      .cover-meta{font-size:13px !important;color:#c2b49f !important}
+      .cover-cta{color:var(--gold-light) !important;background:rgba(215,180,106,.03) !important;border-color:var(--gold-dim) !important}
+      .cover-cta:hover{background:rgba(215,180,106,.1) !important;border-color:var(--gold) !important}
+      .callout,.example,.checklist,.flow-wrap,.pcard,.rcard,.ptype,.bloque{box-shadow:0 8px 30px rgba(0,0,0,.14) !important}
+      .callout{background:rgba(215,180,106,.08) !important;border-top:1px solid rgba(255,255,255,.03) !important;border-right:1px solid rgba(255,255,255,.03) !important;border-bottom:1px solid rgba(255,255,255,.03) !important;max-width:74ch !important}
+      .callout-label{color:var(--gold-light) !important}
+      .callout p{font-size:17px !important}
+      .callout-green{background:rgba(79,156,137,.08) !important}.callout-green .callout-label{color:#7ad0bb !important}
+      .callout-purple{background:rgba(139,107,192,.08) !important}.callout-purple .callout-label{color:#b494ea !important}
+      .callout-red{background:rgba(169,90,90,.08) !important}.callout-red .callout-label{color:#d99898 !important}
+      .example,.checklist,.flow-wrap,.pcard,.rcard,.ptype{background:#151515 !important;border-color:var(--border) !important}
+      .example p,.pcard-desc,.ptype-desc,.tl-desc,.bloque-desc,.rcard-tag{color:#cbbfad !important}
+      .example strong,.pcard-title,.ptype-name,.tl-title,.rcard-name,.bloque-title,.letter-sign .sname{color:var(--text-bright) !important}
+      .pcard-num{color:rgba(215,180,106,.34) !important}
+      .flow-label,.checklist-title,.bloque-label,.ch-eyebrow,.tl-phase{color:var(--gold-light) !important}
+      .ctable{font-size:16px !important;background:#141414 !important;border:1px solid var(--border) !important}
+      .ctable th{background:#171717 !important;color:var(--gold-light) !important;font-weight:700 !important}
+      .ctable td{background:#141414 !important;color:var(--text) !important;border-bottom:1px solid rgba(255,255,255,.05) !important}
+      .ctable tr:hover td{background:rgba(255,255,255,.02) !important}
+      .nav-btn{color:#ccbfae !important;border-color:var(--border) !important;font-weight:600 !important}
+      .nav-btn:hover{color:var(--gold-light) !important;border-color:var(--gold-dim) !important;background:rgba(215,180,106,.05) !important}
+      .nav-progress{color:#b7a995 !important}
+      .mermaid .label{font-family:'Outfit',sans-serif !important}
+      .flow-wrap .mermaid svg{max-width:100% !important;height:auto !important}
+      @media (max-width:1180px){.chapter{padding:62px 56px 84px 54px !important}.pgrid{grid-template-columns:repeat(2,1fr) !important}}
+      @media (max-width:960px){
+        body{display:block !important}
+        #sidebar{position:relative !important;width:100% !important;min-width:0 !important;height:auto !important;border-right:none !important;border-bottom:1px solid var(--border) !important;box-shadow:none !important}
+        #main{margin-left:0 !important}
+        .chapter{padding:50px 24px 72px 24px !important}
+        .grid-2,.manif-creemos,.pgrid,.grid-3{grid-template-columns:1fr !important}
+        .cover-content{padding:42px 24px !important}
+        .ch-number{font-size:92px !important}
+        .ch-title{font-size:42px !important}
+      }
+      @media (max-width:640px){
+        p{font-size:18px !important}
+        .ch-lead{font-size:24px !important}
+        h2.st{font-size:28px !important}
+        .flow-wrap,.checklist,.callout,.example,.bloque,.manif-sistemas,.manif-familia{padding-left:22px !important;padding-right:22px !important}
+        .nav-item{padding-left:22px !important;padding-right:22px !important}
+      }
+    `;
+
+    function applyEnhancements() {
+      try {
+        const doc = frame.contentDocument || frame.contentWindow.document;
+        if (!doc) return;
+
+        let style = doc.getElementById('visibility-upgrade-style');
+        if (!style) {
+          style = doc.createElement('style');
+          style.id = 'visibility-upgrade-style';
+          style.textContent = injectedCss;
+          doc.head.appendChild(style);
+        }
+
+        const title = doc.querySelector('title');
+        if (title) document.title = title.textContent;
+        loading.classList.add('hidden');
+      } catch (err) {
+        console.error('No se pudieron aplicar mejoras visuales al iframe:', err);
+        loading.classList.add('hidden');
+      }
+    }
+
+    frame.addEventListener('load', () => {
+      applyEnhancements();
+      setTimeout(applyEnhancements, 400);
+      setTimeout(applyEnhancements, 1200);
+    });
+  </script>
+</body>
+</html>
