@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FleetPulse Lite · Dossier · Casventur Agency</title>
+  <link rel="stylesheet" href="/site.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-kicker">Casventur Agency</div>
+        <div class="brand-title">FleetPulse Lite · Dossier</div>
+      </div>
+      <div class="nav-links">
+        <a href="/index.html">Inicio</a>
+        <a href="/dossier.html">Nuestro dossier</a>
+        <a href="/manual.html">Manual</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="panel">
+          <div class="breadcrumbs"><a href="/index.html">Inicio</a><span>•</span><a href="/dossier.html">Nuestro dossier</a><span>•</span><strong>FleetPulse Lite</strong></div>
+          <div class="eyebrow">Proyecto 01 · telemática ligera BYOD</div>
+          <h1>FleetPulse Lite</h1>
+          <p>FleetPulse Lite es una solución de telemática ligera para flotas pequeñas y medianas. Convierte el smartphone del conductor en una fuente de señales de viaje para generar historial, eventos de manejo, score por viaje y alertas básicas para el gerente de flota.</p>
+          <div class="detail-meta">
+            <span class="meta-chip">Status: working baseline / build-ready</span>
+            <span class="meta-chip">Android-first para v1 operativa</span>
+            <span class="meta-chip">App móvil + dashboard web</span>
+            <span class="meta-chip">Paddle billing</span>
+            <span class="meta-chip">Privacy & governance posture activa</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container stats-grid">
+        <div class="stat-card"><h3>Usuario primario</h3><p>Gerente o dueño de flota SMB, supervisor de conductores y operación con 5–50 vehículos.</p></div>
+        <div class="stat-card"><h3>Usuario secundario</h3><p>Conductor o repartidor que usa la app móvil durante un viaje activo.</p></div>
+        <div class="stat-card"><h3>Tesis del producto</h3><p>Para muchas flotas SMB, algo útil, rápido y sin hardware vale más que una plataforma pesada con instalación física.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container detail-grid">
+        <div class="detail-card">
+          <h3>Problema que resuelve</h3>
+          <p>Muchas flotas pequeñas hoy no usan telemática, o dependen de llamadas, intuición y WhatsApp, o consideran demasiado costosas las soluciones con hardware. FleetPulse reduce esa fricción con una propuesta BYOD, rápida y más ligera.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Lo que el producto sí es</h3>
+          <p>Telemática ligera, scoring básico de conducción, supervisión de viajes, disciplina operacional, coaching y visibilidad básica para la flota.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Lo que no promete en v1</h3>
+          <p>No se presenta como caja negra forense, herramienta actuarial, TMS, dashcam, vigilancia permanente fuera de viaje ni sistema de sanción automática.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Qué entrega la agencia en este caso</div>
+            <h2>Una baseline completa para producto, desarrollo y salida seria</h2>
+            <p>FleetPulse no se presenta solo como “una app”. Se presenta como un sistema de trabajo completo: brief, arquitectura, score engine, decisiones de investigación, privacidad, roadmap, readiness y slices ejecutables.</p>
+          </div>
+        </div>
+        <div class="services-grid">
+          <div class="service-card"><h3>Product brief</h3><p>Snapshot de producto, usuarios, problema, tesis, in-scope / out-of-scope, pricing y KPIs iniciales.</p></div>
+          <div class="service-card"><h3>Arquitectura</h3><p>Modelo de capas: app móvil, backend transaccional, dashboard web y billing con servicios externos.</p></div>
+          <div class="service-card"><h3>Score engine</h3><p>Motor v1 simple, defendible y versionable, diseñado para coaching y priorización, no para decisiones sensibles automáticas.</p></div>
+          <div class="service-card"><h3>Privacidad & datos</h3><p>Minimización, retención, transparencia hacia conductor, postura controller/processor, DPIA y seguridad mínima requerida.</p></div>
+          <div class="service-card"><h3>Research decisions</h3><p>Decisiones aterrizadas sobre background location, speeding advisory-first, billing security y API security posture.</p></div>
+          <div class="service-card"><h3>Release readiness</h3><p>Checklist de honestidad funcional, tenant isolation, billing, privacidad y validación en dispositivo físico.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Alcance v1</div>
+            <h2>Qué entra y qué se deja fuera para proteger claridad</h2>
+          </div>
+        </div>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>In scope</h3>
+            <ul class="list">
+              <li>App móvil para conductor</li>
+              <li>Autenticación</li>
+              <li>Trip start / stop</li>
+              <li>Captura de GPS y sensores durante viaje activo</li>
+              <li>Detección de eventos básicos</li>
+              <li>Score por viaje</li>
+              <li>Dashboard web para gerente</li>
+              <li>Historial de viajes, mapa, alertas y export básico</li>
+              <li>Multitenancy por flota</li>
+              <li>Suscripción y billing</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <h3>Out of scope</h3>
+            <ul class="list">
+              <li>Seguros y pricing actuarial</li>
+              <li>Hardware dedicado</li>
+              <li>Dashcam o video</li>
+              <li>Routing y dispatch</li>
+              <li>Geofencing avanzado</li>
+              <li>API pública e integraciones ERP</li>
+              <li>Gamificación</li>
+              <li>Coaching con IA generativa</li>
+              <li>Scoring laboral o disciplinario automatizado</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <h3>Decisiones cerradas</h3>
+            <ul class="list">
+              <li><strong>Android-first:</strong> la operación seria de v1 se valida primero en Android.</li>
+              <li><strong>Viaje explícito:</strong> start/stop manual en v1, no detección totalmente automática.</li>
+              <li><strong>Speeding advisory-first:</strong> no se vende como verdad perfecta sin cobertura validada.</li>
+              <li><strong>Score honesto:</strong> señal de comportamiento y coaching, no verdad jurídica.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Arquitectura resumida</div>
+            <h2>Cuatro capas para una operación ligera pero seria</h2>
+          </div>
+        </div>
+        <div class="services-grid">
+          <div class="service-card"><h3>1. Mobile app</h3><p>Captura viaje activo, muestra estado del trayecto y score preliminar para el conductor.</p></div>
+          <div class="service-card"><h3>2. Backend transaccional</h3><p>Recibe trip summaries, recalcula el score autoritativo, persiste eventos y decide alertas.</p></div>
+          <div class="service-card"><h3>3. Dashboard web</h3><p>Muestra conductores, viajes, score, mapas, tendencias y exportes para la flota.</p></div>
+          <div class="service-card"><h3>4. Billing + servicios externos</h3><p>Paddle para suscripción, proveedor de mapas y, cuando aplique, proveedor de speed limits.</p></div>
+          <div class="service-card"><h3>Stack sugerido</h3><p>React Native con Expo, Next.js, Supabase, Paddle y componentes server-side según el caso.</p></div>
+          <div class="service-card"><h3>Regla clave</h3><p>El preview score móvil es informativo; el score final del backend es la versión autoritativa.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Score engine</div>
+            <h2>Un motor simple, explicable y versionable</h2>
+            <p>El score v1 resume riesgo relativo por viaje para coaching y priorización. Los eventos base son hard brake, hard accel, sharp turn y speeding con enfoque advisory-first.</p>
+          </div>
+        </div>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>Principio técnico</h3>
+            <p>Ningún evento debe depender ciegamente de una sola señal ruidosa. La lógica cruza acelerómetro, giroscopio, velocidad GPS y contexto temporal.</p>
+          </div>
+          <div class="detail-card">
+            <h3>Bandas del score</h3>
+            <p>A: 90–100 · B: 75–89 · C: 60–74 · D: 45–59 · F: menos de 45. La salida debe explicar qué pasó, cuántas veces, dónde y cuánto afectó el score.</p>
+          </div>
+          <div class="detail-card">
+            <h3>Gobernanza del score</h3>
+            <p>Cada viaje debe guardar versión del score, resumen de entradas y deducciones. Si el score no es explicable, no es confiable.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Privacidad & seguridad</div>
+            <h2>El producto se diseña con una postura de governance real</h2>
+          </div>
+        </div>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>Minimización</h3>
+            <p>Se recolecta la mínima cantidad de datos necesaria para entregar el servicio. No se plantea audio, video, contactos, mensajes ni tracking permanente fuera de viaje.</p>
+          </div>
+          <div class="detail-card">
+            <h3>Retención y transparencia</h3>
+            <p>Eventos y viajes con retención por defecto de 12 meses, logs operativos 30–90 días, y explicaciones claras al conductor sobre cuándo se recolecta ubicación y qué no se monitorea.</p>
+          </div>
+          <div class="detail-card">
+            <h3>Postura legal y de seguridad</h3>
+            <p>No se asume automáticamente un rol legal absoluto. Se prevén DPA, matriz de retención, inventario de subprocesadores, separación por flota, TLS, cifrado en reposo y authz por objeto.</p>
+          </div>
+        </div>
+        <div class="note" style="margin-top:18px;">FleetPulse se cuenta con una regla de honestidad central: no prometer equivalencia iOS/Android sin prueba física, no inflar precisión del score y no vender speeding como verdad perfecta mientras siga en postura advisory-first.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Ejecución</div>
+            <h2>Plan de build por slices</h2>
+            <p>La agencia deja el proyecto listo para construirse con control. El plan no persigue features por glamour; persigue reducción de incertidumbre técnica, comercial y de privacidad.</p>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-phase">Slice 0</div><div><strong>Base del sistema</strong><br>Repo, auth, multitenancy, skeleton móvil y web, estructura inicial y baseline documental cerrada.</div></div>
+          <div class="timeline-item"><div class="timeline-phase">Slice 1</div><div><strong>Trip recording</strong><br>Start/stop, permisos, captura GPS, timer, estados y cola offline.</div></div>
+          <div class="timeline-item"><div class="timeline-phase">Slice 2</div><div><strong>Eventos v1</strong><br>Hard brake, hard accel y sharp turn con detección local básica.</div></div>
+          <div class="timeline-item"><div class="timeline-phase">Slice 3</div><div><strong>Score preview</strong><br>Detector local, deducciones y explicabilidad básica.</div></div>
+          <div class="timeline-item"><div class="timeline-phase">Slice 4</div><div><strong>Backend score engine</strong><br>Recalcular score, persistir viajes y eventos, versionado y respuesta consistente.</div></div>
+          <div class="timeline-item"><div class="timeline-phase">Slice 5</div><div><strong>Dashboard admin</strong><br>Conductores, viajes, detalle de ruta, mapas y filtros básicos.</div></div>
+          <div class="timeline-item"><div class="timeline-phase">Slice 6</div><div><strong>Billing</strong><br>Paddle checkout, webhook, estados de suscripción y gating.</div></div>
+          <div class="timeline-item"><div class="timeline-phase">Slice 7</div><div><strong>Hardening</strong><br>Privacidad, seguridad, release gates, auditability y soporte inicial.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container detail-grid">
+        <div class="detail-card">
+          <h3>Pricing v1</h3>
+          <p>Solo: USD 9 · Fleet: USD 39 hasta 5 conductores · Team: USD 89 hasta 15 · Scale: USD 179 hasta 50. La postura comercial de entrada es Fleet USD 39 para validar con pago real.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Roadmap</h3>
+          <p>v1 valida uso, cobro y reducción de incertidumbre. v1.1 endurece confiabilidad. v2 solo se abre si hay clientes reales, billing estable y feedback repetido.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Qué demuestra este caso sobre la agencia</h3>
+          <p>Que no solo diseñamos pantallas o código. Podemos estructurar un producto como sistema completo: producto, apps, backend, riesgo, privacidad, score, billing y readiness.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="cta-panel">
+        <div>
+          <h3>FleetPulse es el primer caso del dossier</h3>
+          <p>Y marca el estándar de cómo queremos presentar proyectos: con precisión, sin humo y mostrando el tipo de agencia de desarrollo y servicio que realmente somos.</p>
+        </div>
+        <a class="btn btn-primary" href="/dossier.html">Volver a nuestro dossier</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-row">
+      <div>Casventur Agency · FleetPulse Lite dossier</div>
+      <div><a href="/dossier.html">Nuestro dossier</a> · <a href="/index.html">Inicio</a></div>
+    </div>
+  </footer>
+</body>
+</html>
