@@ -3,616 +3,382 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manual Operativo · La Agencia</title>
-  <style>
-    html,body{margin:0;padding:0;width:100%;height:100%;background:#0b0b0b;color:#e7dfd3;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
-    #app{position:fixed;inset:0}
-    #frame{width:100%;height:100%;border:none;background:#0b0b0b}
-    #loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 35%,rgba(215,180,106,.08),transparent 35%),#0b0b0b;color:#f1d899;letter-spacing:.18em;text-transform:uppercase;font-size:12px;z-index:2}
-    #loading.hidden{display:none}
-  </style>
+  <title>Casventur Agency · Desarrollo de aplicaciones, IA y sistemas</title>
+  <link rel="stylesheet" href="/site.css" />
 </head>
 <body>
-  <div id="loading">Cargando manual…</div>
-  <div id="app">
-    <iframe id="frame" src="/index.html.html" title="Manual Operativo"></iframe>
+  <div class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-kicker">Casventur Agency</div>
+        <div class="brand-title">Desarrollo de aplicaciones, IA y sistemas</div>
+      </div>
+      <div class="nav-links">
+        <a href="/index.html">Inicio</a>
+        <a href="#capabilities">Capacidades</a>
+        <a href="#services">Servicios</a>
+        <a href="/dossier.html">Nuestro dossier</a>
+        <a href="/manual.html">Manual</a>
+      </div>
+    </div>
   </div>
 
-  <script>
-    const frame = document.getElementById('frame');
-    const loading = document.getElementById('loading');
-
-    const injectedCss = `
-      :root{
-        --bg:#0b0b0b !important;
-        --bg2:#141414 !important;
-        --bg3:#1d1d1d !important;
-        --border:#3a342c !important;
-        --gold:#d7b46a !important;
-        --gold-dim:#8b6c35 !important;
-        --gold-light:#f1d899 !important;
-        --text:#e7dfd3 !important;
-        --text-dim:#a79a86 !important;
-        --text-bright:#fbf7ef !important;
-        --green:#4f9c89 !important;
-        --green-light:#7ad0bb !important;
-        --purple:#8b6bc0 !important;
-        --purple-light:#b494ea !important;
-      }
-      body{font-size:19px !important;line-height:1.78 !important;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-      #sidebar{background:linear-gradient(180deg,#161616 0%,#121212 100%) !important;border-right:1px solid var(--border) !important;box-shadow:12px 0 40px rgba(0,0,0,.22) !important}
-      #sidebar-logo{padding:38px 30px 30px !important}
-      .logo-badge{font-weight:700 !important;background:rgba(215,180,106,.05) !important}
-      .logo-title{font-size:22px !important;color:var(--text-bright) !important}
-      .logo-sub{color:var(--text-dim) !important}
-      .nav-block{font-size:10px !important;color:#b8aa95 !important;font-weight:700 !important;padding:22px 30px 8px !important}
-      .nav-item{font-size:14px !important;color:#cbbfad !important;padding:11px 30px !important;border-left:3px solid transparent !important;font-weight:500 !important}
-      .nav-item:hover{color:var(--text-bright) !important;background:rgba(215,180,106,.06) !important;border-left-color:var(--gold-dim) !important}
-      .nav-item.active{color:var(--text-bright) !important;background:rgba(215,180,106,.12) !important;border-left-color:var(--gold) !important;font-weight:600 !important}
-      .nav-item.active .nav-num{color:var(--gold-light) !important}
-      .chapter{max-width:1180px !important;padding:76px 104px 104px 86px !important}
-      .ch-title{font-size:clamp(40px,4.6vw,62px) !important;color:var(--text-bright) !important}
-      .ch-desc{font-size:16px !important;color:#b8aa95 !important;max-width:72ch !important}
-      .ch-lead{font-size:28px !important;color:var(--gold-light) !important}
-      h2.st{font-size:32px !important;color:var(--text-bright) !important}
-      h3.ss{font-size:25px !important;color:var(--text-bright) !important}
-      p{font-size:19px !important;line-height:1.82 !important;color:var(--text) !important;max-width:74ch !important}
-      .letter p{font-size:24px !important;line-height:1.82 !important}
-      .cover-subtitle{font-size:24px !important;color:#cfc1ad !important}
-      .cover-meta{font-size:13px !important;color:#c2b49f !important}
-      .cover-cta{color:var(--gold-light) !important;background:rgba(215,180,106,.03) !important;border-color:var(--gold-dim) !important}
-      .cover-cta:hover{background:rgba(215,180,106,.1) !important;border-color:var(--gold) !important}
-      .callout,.example,.checklist,.flow-wrap,.pcard,.rcard,.ptype,.bloque{box-shadow:0 8px 30px rgba(0,0,0,.14) !important}
-      .callout{background:rgba(215,180,106,.08) !important;border-top:1px solid rgba(255,255,255,.03) !important;border-right:1px solid rgba(255,255,255,.03) !important;border-bottom:1px solid rgba(255,255,255,.03) !important;max-width:74ch !important}
-      .callout-label,.flow-label,.checklist-title,.bloque-label,.ch-eyebrow,.tl-phase{color:var(--gold-light) !important}
-      .callout p{font-size:17px !important}
-      .callout-green{background:rgba(79,156,137,.08) !important} .callout-green .callout-label{color:var(--green-light) !important}
-      .callout-purple{background:rgba(139,107,192,.08) !important} .callout-purple .callout-label{color:var(--purple-light) !important}
-      .callout-red{background:rgba(169,90,90,.08) !important} .callout-red .callout-label{color:#d99898 !important}
-      .example,.checklist,.flow-wrap,.pcard,.rcard,.ptype{background:#151515 !important;border-color:var(--border) !important}
-      .example p,.pcard-desc,.ptype-desc,.tl-desc,.bloque-desc,.rcard-tag{color:#cbbfad !important}
-      .example strong,.pcard-title,.ptype-name,.tl-title,.rcard-name,.bloque-title,.letter-sign .sname{color:var(--text-bright) !important}
-      .pcard-num{color:rgba(215,180,106,.34) !important}
-      .nav-btn{color:#ccbfae !important;border-color:var(--border) !important;font-weight:600 !important}
-      .nav-btn:hover{color:var(--gold-light) !important;border-color:var(--gold-dim) !important;background:rgba(215,180,106,.05) !important}
-      .nav-progress{color:#b7a995 !important}
-      .ctable{font-size:16px !important;background:#141414 !important;border:1px solid var(--border) !important}
-      .ctable th{background:#171717 !important;color:var(--gold-light) !important;font-weight:700 !important}
-      .ctable td{background:#141414 !important;color:var(--text) !important;border-bottom:1px solid rgba(255,255,255,.05) !important}
-      .ctable tr:hover td{background:rgba(255,255,255,.02) !important}
-      .flow-wrap .mermaid svg{max-width:100% !important;height:auto !important}
-      @media (max-width:1180px){.chapter{padding:62px 56px 84px 54px !important} .pgrid{grid-template-columns:repeat(2,1fr) !important}}
-      @media (max-width:960px){
-        body{display:block !important}
-        #sidebar{position:relative !important;width:100% !important;min-width:0 !important;height:auto !important;border-right:none !important;border-bottom:1px solid var(--border) !important;box-shadow:none !important}
-        #main{margin-left:0 !important}
-        .chapter{padding:50px 24px 72px 24px !important}
-        .grid-2,.manif-creemos,.pgrid,.grid-3{grid-template-columns:1fr !important}
-        .cover-content{padding:42px 24px !important}
-        .ch-number{font-size:92px !important}
-        .ch-title{font-size:42px !important}
-      }
-      @media (max-width:640px){
-        p{font-size:18px !important}
-        .ch-lead{font-size:24px !important}
-        h2.st{font-size:28px !important}
-        .flow-wrap,.checklist,.callout,.example,.bloque,.manif-sistemas,.manif-familia{padding-left:22px !important;padding-right:22px !important}
-        .nav-item{padding-left:22px !important;padding-right:22px !important}
-      }
-    `;
-
-    const blockVIIHtml = String.raw`<!-- CAP 21 -->
-<section id="ch-21" class="chapter">
-  <div class="bloque"><div class="bloque-label">Bloque VII · Capacidades avanzadas</div><div class="bloque-title">Ir más lejos</div><p class="bloque-desc">Este bloque cubre las capacidades que separan a quien usa IA como herramienta de quien la orquesta como sistema. No son habilidades técnicas — son formas de pensar y trabajar que se desarrollan con práctica deliberada.</p></div>
-  <div class="ch-eyebrow">Capítulo 21</div>
-  <div class="ch-number">21</div>
-  <h1 class="ch-title">Cómo orquestamos<br>múltiples IAs</h1>
-  <p class="ch-desc">Qué significa operar con varios modelos, cómo asignarles roles, cuándo usar uno versus otro, y cómo diseñar un flujo multi-LLM sin caer en caos, costos innecesarios o respuestas inconsistentes.</p>
-  <p class="ch-lead">“La ventaja no está en tener acceso a muchos modelos. La ventaja está en saber qué papel le das a cada uno dentro de un sistema de trabajo.”</p>
-
-  <h2 class="st">21.1 Qué significa orquestar múltiples IAs</h2>
-  <p>Usar múltiples IAs no significa abrir varias pestañas y hacerle la misma pregunta a todas. Eso es comparación informal. <strong>Orquestar</strong> implica diseñar un flujo en el que cada modelo cumple una función específica dentro de una cadena de trabajo. En arquitectura de software, eso se parece a una <em>pipeline</em>: una secuencia de etapas donde la salida de una se convierte en entrada de la siguiente.</p>
-  <p>Por ejemplo, un modelo puede ser mejor para <strong>discovery</strong> e investigación externa; otro para <strong>síntesis crítica</strong>; otro para <strong>generación de código</strong>; y otro para <strong>evaluación o revisión</strong>. La clave es que cada uno opere donde tiene mayor ventaja comparativa. Si un mismo modelo hace todo, desperdicias especialización y aumentas el riesgo de sesgo único.</p>
-
-  <div class="flow-wrap"><div class="flow-label">Arquitectura básica de orquestación multi-LLM</div>
-  <div class="mermaid">
-flowchart LR
-  A["Problema u objetivo"] --> B["Modelo 1\nDiscovery / research"]
-  B --> C["Modelo 2\nSíntesis / architecture"]
-  C --> D["Modelo 3\nEjecución / build"]
-  D --> E["Modelo 4\nQA / evaluator"]
-  E --> F{"¿Cumple criterio?"}
-  F -->|"Sí"| G["Resultado utilizable"]
-  F -->|"No"| C
-  style A fill:#181818,stroke:#C9A85C,color:#D8D0C4
-  style B fill:#101010,stroke:#4a8c7a,color:#D8D0C4
-  style C fill:#101010,stroke:#7a5caa,color:#D8D0C4
-  style D fill:#101010,stroke:#4a8c7a,color:#D8D0C4
-  style E fill:#101010,stroke:#7a5caa,color:#D8D0C4
-  style F fill:#201808,stroke:#C9A85C,color:#C9A85C
-  style G fill:#081808,stroke:#4a8c7a,color:#6bbdaa
-  </div></div>
-
-  <h2 class="st">21.2 Los tecnicismos que debes entender — explicados sin humo</h2>
-  <table class="ctable">
-    <tr><th>Término</th><th>Qué significa</th><th>Por qué importa</th></tr>
-    <tr><td><strong>Model routing</strong></td><td>La regla o lógica que decide qué modelo recibe cada tarea.</td><td>Evita usar un modelo caro o lento para algo que otro resolvería mejor.</td></tr>
-    <tr><td><strong>Context window</strong></td><td>La cantidad máxima de texto o tokens que un modelo puede “ver” en una interacción.</td><td>Si el contexto excede ese límite, se pierde información crítica o debes resumirla.</td></tr>
-    <tr><td><strong>Tool calling</strong></td><td>Capacidad de un modelo para invocar herramientas externas: búsquedas, bases de datos, APIs, archivos.</td><td>Convierte al modelo en un coordinador de acciones, no solo en un generador de texto.</td></tr>
-    <tr><td><strong>Agent loop</strong></td><td>Ciclo repetido de observar → planear → actuar → revisar.</td><td>Permite que el sistema haga trabajo iterativo, no respuestas de un solo tiro.</td></tr>
-    <tr><td><strong>Fallback chain</strong></td><td>Secuencia de respaldo si el modelo principal falla, se atasca o resulta demasiado caro.</td><td>Da resiliencia operativa y evita bloquear el flujo completo.</td></tr>
-    <tr><td><strong>Latency budget</strong></td><td>El tiempo máximo que aceptas para completar una tarea o respuesta.</td><td>No todo problema tolera la misma demora; una demo en vivo no acepta la misma latencia que un batch nocturno.</td></tr>
-    <tr><td><strong>Eval harness</strong></td><td>Conjunto de pruebas estructuradas para medir calidad de respuestas o resultados.</td><td>Sin evaluación repetible, eliges modelos por intuición y no por evidencia.</td></tr>
-    <tr><td><strong>Schema-first</strong></td><td>Diseñar primero la estructura exacta de salida que esperas del modelo: JSON, campos, tipos, límites.</td><td>Reduce ambigüedad y vuelve el resultado más integrable en sistemas reales.</td></tr>
-  </table>
-
-  <h2 class="st">21.3 Cómo se ve nuestra orquestación en la práctica</h2>
-  <p>En nuestro contexto, un patrón típico se parece a esto:</p>
-  <div class="example"><div class="example-label">Patrón operativo realista para la agencia</div>
-  <p><strong>Perplexity:</strong> discovery externo, búsqueda de mercado, estado del arte, comparación de herramientas y señales recientes.<br><br>
-  <strong>Claude:</strong> síntesis, arquitectura conceptual, diseño del framework, redacción de specs, documentación y pensamiento crítico.<br><br>
-  <strong>Claude Code / Cursor / Codex:</strong> ejecución concreta sobre archivos, código, refactors, validaciones técnicas y cambios verificables.<br><br>
-  <strong>Evaluator:</strong> una segunda pasada crítica — humana o asistida por otro modelo — para revisar si lo producido cumple el objetivo, los criterios y las restricciones.</p></div>
-  <p>Ese patrón no es dogma. Es una <strong>asignación de roles</strong>. Si cambian las herramientas o los modelos, la lógica se mantiene: discovery, síntesis, ejecución y evaluación son funciones permanentes aunque cambie el proveedor.</p>
-
-  <h2 class="st">21.4 Prompt contracts — cómo evitar que el sistema se vuelva ambiguo</h2>
-  <p>Uno de los conceptos más importantes en sistemas multi-LLM es el <strong>prompt contract</strong>. Piensa en él como un contrato entre etapas: qué recibe un modelo, qué debe producir, en qué formato, con qué restricciones y qué queda explícitamente fuera de scope.</p>
-  <p>Sin prompt contracts, cada etapa “interpreta” libremente la tarea y se acumula deriva. Con prompt contracts, cada etapa opera dentro de un perímetro definido. Esto es especialmente importante cuando una salida alimenta a otra etapa: si la primera produce texto bonito pero impreciso, la segunda construirá sobre arena.</p>
-
-  <div class="callout"><div class="callout-label">Regla operativa</div>
-  <p>Cuando una salida va a alimentar a otra herramienta o a otra IA, no pidas “algo útil”. Pide una estructura exacta: campos obligatorios, criterios mínimos, exclusiones y condiciones de error. Eso convierte la creatividad del modelo en algo operacionalizable.</p></div>
-
-  <h2 class="st">21.5 Riesgos de una mala orquestación</h2>
-  <div class="grid-3">
-    <div class="pcard"><div class="pcard-num">①</div><div class="pcard-title">Duplicación inútil</div><p class="pcard-desc">Tres modelos hacen lo mismo y ninguno agrega valor diferencial. Resultado: costo más alto sin mejora real.</p></div>
-    <div class="pcard"><div class="pcard-num">②</div><div class="pcard-title">Drift de contexto</div><p class="pcard-desc">Cada etapa reinterpreta el problema y el resultado final ya no responde al objetivo original.</p></div>
-    <div class="pcard"><div class="pcard-num">③</div><div class="pcard-title">Acoplamiento frágil</div><p class="pcard-desc">Si una salida cambia un poco de formato, todo el flujo se rompe porque nadie definió contratos claros.</p></div>
-    <div class="pcard"><div class="pcard-num">④</div><div class="pcard-title">Costo opaco</div><p class="pcard-desc">Se consumen tokens, tiempo y energía sin saber qué etapa está generando valor y cuál no.</p></div>
-    <div class="pcard"><div class="pcard-num">⑤</div><div class="pcard-title">Latencia excesiva</div><p class="pcard-desc">El flujo se vuelve tan largo que la experiencia de uso se degrada o el equipo deja de usarlo.</p></div>
-    <div class="pcard"><div class="pcard-num">⑥</div><div class="pcard-title">Falsa sofisticación</div><p class="pcard-desc">El sistema parece avanzado porque tiene muchos modelos, pero en realidad complica tareas que un flujo simple resolvería mejor.</p></div>
-  </div>
-
-  <h2 class="st">21.6 El principio de diseño que seguimos</h2>
-  <p>La mejor orquestación no es la más compleja. Es la más clara. Si una tarea se resuelve con un solo modelo y una verificación humana, no necesitas cuatro agentes. Solo introduces más puntos de fallo. El sistema multi-LLM tiene sentido cuando cada etapa agrega una función realmente distinta.</p>
-  <p>En otras palabras: <strong>orquesta por necesidad funcional, no por entusiasmo tecnológico</strong>.</p>
-
-  <div class="checklist"><div class="checklist-title">✓ Lo que debes poder hacer después de este capítulo</div>
-  <div class="citem"><div class="cbox"></div><span>Explicar qué es model routing y por qué no todo debe resolverse con el mismo modelo</span></div>
-  <div class="citem"><div class="cbox"></div><span>Distinguir entre discovery, síntesis, ejecución y evaluación como funciones separadas</span></div>
-  <div class="citem"><div class="cbox"></div><span>Diseñar un prompt contract básico entre dos etapas de trabajo</span></div>
-  <div class="citem"><div class="cbox"></div><span>Identificar cuándo una orquestación es útil y cuándo solo añade complejidad</span></div></div>
-
-  <div class="ch-nav"><button class="nav-btn" onclick="goTo('ch-20')">← 20 · Glosario</button><span class="nav-progress">21 / 26</span><button class="nav-btn" onclick="goTo('ch-22')">22 · Pensamiento crítico →</button></div>
-</section>
-
-<!-- CAP 22 -->
-<section id="ch-22" class="chapter">
-  <div class="ch-eyebrow">Capítulo 22</div>
-  <div class="ch-number">22</div>
-  <h1 class="ch-title">Pensamiento crítico<br>como ventaja operativa</h1>
-  <p class="ch-desc">Cómo evaluar ideas, claims, métricas, narrativas de mercado y salidas de IA sin tragarte la primera versión que suena convincente.</p>
-  <p class="ch-lead">“El pensamiento crítico no es dudar de todo. Es exigir suficiente evidencia antes de comprometer tiempo, dinero o reputación.”</p>
-
-  <h2 class="st">22.1 Qué es pensamiento crítico en nuestro contexto</h2>
-  <p>En la agencia, pensamiento crítico significa tres cosas al mismo tiempo: <strong>detectar supuestos</strong>, <strong>medir la calidad de la evidencia</strong> y <strong>separar lo que sabes de lo que solo infieres</strong>. Sin eso, cualquier idea bien redactada — humana o generada por IA — parece sólida aunque esté construida sobre premisas débiles.</p>
-  <p>La mayoría de los errores caros no nacen de mala intención. Nacen de un razonamiento no auditado. Alguien asume que el mercado existe, que los usuarios pagarán, que una métrica significa otra cosa, o que una respuesta de IA es correcta porque suena técnica. Pensamiento crítico es el mecanismo que interrumpe esa cadena.</p>
-
-  <h2 class="st">22.2 Los tecnicismos que sí debes dominar</h2>
-  <table class="ctable">
-    <tr><th>Término</th><th>Explicación</th><th>Aplicación práctica</th></tr>
-    <tr><td><strong>First principles</strong></td><td>Razonar desde verdades básicas y no desde analogías superficiales.</td><td>En lugar de copiar un SaaS existente, preguntar: ¿qué problema irreducible estamos resolviendo?</td></tr>
-    <tr><td><strong>Base rate</strong></td><td>La tasa base o frecuencia histórica de un evento en una categoría comparable.</td><td>Antes de creer que “este producto explotará”, mirar qué porcentaje real de productos similares lo logra.</td></tr>
-    <tr><td><strong>Falsifiability</strong></td><td>Capacidad de una hipótesis de ser refutada por evidencia.</td><td>“Esto va a funcionar” no es útil; “si menos de 3 de 10 prospectos aceptan demo, la hipótesis se debilita” sí lo es.</td></tr>
-    <tr><td><strong>Bayesian updating</strong></td><td>Actualizar tu nivel de confianza conforme entra nueva evidencia.</td><td>Empezar con 50% de confianza y moverla a 70% o 20% según lo que el mercado muestra.</td></tr>
-    <tr><td><strong>Confounder</strong></td><td>Variable que parece explicar un resultado pero en realidad está mezclada con otra causa.</td><td>Una subida en leads puede deberse al canal… o a una campaña paralela que nadie aisló.</td></tr>
-    <tr><td><strong>Steelman</strong></td><td>Reconstruir la mejor versión del argumento opuesto antes de criticarlo.</td><td>Evita destruir caricaturas fáciles y mejora la calidad real de la decisión.</td></tr>
-    <tr><td><strong>Red teaming</strong></td><td>Ejercicio deliberado de atacar una hipótesis, un plan o un sistema desde una postura adversarial.</td><td>Sirve para descubrir fallos que el entusiasmo del equipo no ve.</td></tr>
-  </table>
-
-  <h2 class="st">22.3 El método que usamos para examinar cualquier claim</h2>
-  <div class="flow-wrap"><div class="flow-label">Protocolo mínimo de pensamiento crítico</div>
-  <div class="mermaid">
-flowchart TD
-  A["Afirmación o idea"] --> B["¿Qué se está afirmando exactamente?"]
-  B --> C["¿Qué evidencia la sostiene?"]
-  C --> D["¿Qué supuestos hay debajo?"]
-  D --> E["¿Qué tendría que pasar para refutarla?"]
-  E --> F["¿Cuál es mi nivel de confianza ahora?"]
-  style A fill:#181818,stroke:#C9A85C,color:#D8D0C4
-  style B fill:#101010,stroke:#242424,color:#D8D0C4
-  style C fill:#101010,stroke:#4a8c7a,color:#D8D0C4
-  style D fill:#101010,stroke:#7a5caa,color:#D8D0C4
-  style E fill:#101010,stroke:#a05050,color:#D8D0C4
-  style F fill:#081808,stroke:#4a8c7a,color:#6bbdaa
-  </div></div>
-
-  <h2 class="st">22.4 Sesgos que más nos pueden dañar</h2>
-  <div class="grid-3">
-    <div class="pcard"><div class="pcard-num">①</div><div class="pcard-title">Sesgo de confirmación</div><p class="pcard-desc">Buscar solo evidencia que confirma lo que ya querías creer. Es el sesgo más común al validar ideas propias.</p></div>
-    <div class="pcard"><div class="pcard-num">②</div><div class="pcard-title">Costo hundido</div><p class="pcard-desc">Seguir invirtiendo en algo porque ya invertiste mucho. No mejora la realidad; solo la vuelve más cara.</p></div>
-    <div class="pcard"><div class="pcard-num">③</div><div class="pcard-title">Halo effect</div><p class="pcard-desc">Suponer que porque una persona o herramienta es brillante en algo, también lo será en todo lo demás.</p></div>
-    <div class="pcard"><div class="pcard-num">④</div><div class="pcard-title">Availability bias</div><p class="pcard.desc">Sobrevalorar lo que recuerdas fácil o viste recientemente, aunque no sea lo más representativo.</p></div>
-    <div class="pcard"><div class="pcard-num">⑤</div><div class="pcard-title">Narrative fallacy</div><p class="pcard-desc">Confundir una historia coherente con una explicación verdadera. La coherencia narrativa no equivale a causalidad.</p></div>
-    <div class="pcard"><div class="pcard-num">⑥</div><div class="pcard-title">Authority bias</div><p class="pcard-desc">Dar por correcta una idea solo porque la dijo alguien prestigioso o porque viene envuelta en lenguaje técnico.</p></div>
-  </div>
-
-  <h2 class="st">22.5 Cómo aplicarlo a salidas de IA</h2>
-  <p>Las IAs son especialmente peligrosas para mentes no entrenadas porque producen texto con <strong>fluidez</strong>. La fluidez da una ilusión de verdad. Pero una respuesta bien escrita puede estar errada en hechos, causalidad o prioridades.</p>
-  <div class="callout-red callout"><div class="callout-label">Regla operacional con IA</div>
-  <p>No preguntes solo “¿está bien redactado?”. Pregunta: <strong>¿qué parte de esto es hecho, qué parte es inferencia, qué parte es recomendación y qué parte es relleno retórico?</strong> Esas cuatro categorías nunca deben mezclarse sin etiquetarse.</p></div>
-
-  <h2 class="st">22.6 El estándar intelectual que queremos</h2>
-  <p>No queremos volvernos cínicos ni paralizados por análisis. Queremos algo más útil: una mente que puede emocionarse con una idea y, al mismo tiempo, someterla a presión lógica. Ese equilibrio es rarísimo. Y por eso vale tanto.</p>
-
-  <div class="checklist"><div class="checklist-title">✓ Lo que debes poder hacer después de este capítulo</div>
-  <div class="citem"><div class="cbox"></div><span>Explicar qué es una tasa base y por qué importa antes de hacer proyecciones</span></div>
-  <div class="citem"><div class="cbox"></div><span>Convertir una idea vaga en una hipótesis falsable</span></div>
-  <div class="citem"><div class="cbox"></div><span>Detectar al menos tres sesgos en una conversación de negocio o en una respuesta de IA</span></div>
-  <div class="citem"><div class="cbox"></div><span>Asignar un nivel de confianza explícito a una decisión en vez de tratarla como certeza</span></div></div>
-
-  <div class="ch-nav"><button class="nav-btn" onclick="goTo('ch-21')">← 21 · Orquestación</button><span class="nav-progress">22 / 26</span><button class="nav-btn" onclick="goTo('ch-23')">23 · Estrategia →</button></div>
-</section>
-
-<!-- CAP 23 -->
-<section id="ch-23" class="chapter">
-  <div class="ch-eyebrow">Capítulo 23</div>
-  <div class="ch-number">23</div>
-  <h1 class="ch-title">Inteligencia estratégica</h1>
-  <p class="ch-desc">Cómo pensar en posiciones, opciones, timing, restricciones y movimientos de segundo orden para que la agencia no solo trabaje mucho, sino en la dirección correcta.</p>
-  <p class="ch-lead">“Ser estratégico no es pensar a largo plazo de manera abstracta. Es ver cómo una decisión de hoy altera el mapa de opciones de mañana.”</p>
-
-  <h2 class="st">23.1 Qué entendemos por inteligencia estratégica</h2>
-  <p>Inteligencia estratégica es la capacidad de leer el sistema competitivo en el que operas y decidir dónde colocarte para maximizar opciones, aprendizaje y retorno. No se trata de ser “visionario” en un sentido místico. Se trata de ver mejor las <strong>interdependencias</strong> entre mercado, capacidad, tiempo, posicionamiento y secuencia.</p>
-  <p>Una persona muy inteligente puede resolver problemas complejos. Una persona estratégicamente inteligente decide cuáles problemas no vale la pena resolver y cuáles, si se resuelven primero, desbloquean muchos otros.</p>
-
-  <h2 class="st">23.2 Los marcos que usamos</h2>
-  <table class="ctable">
-    <tr><th>Marco</th><th>Qué es</th><th>Cómo lo usamos</th></tr>
-    <tr><td><strong>OODA Loop</strong></td><td>Observe → Orient → Decide → Act. Ciclo de adaptación rápida.</td><td>Para leer mercados y ajustar rápido sin esperar “información completa”.</td></tr>
-    <tr><td><strong>Constraint analysis</strong></td><td>Buscar el cuello de botella real que limita al sistema.</td><td>Evita optimizar partes irrelevantes. Primero resuelves la restricción dominante.</td></tr>
-    <tr><td><strong>Optionality</strong></td><td>Diseñar decisiones que preservan o aumentan opciones futuras.</td><td>Preferimos apuestas reversibles cuando la incertidumbre es alta.</td></tr>
-    <tr><td><strong>Leading indicators</strong></td><td>Indicadores tempranos que anticipan un resultado futuro.</td><td>No esperamos ventas cerradas para detectar si una oferta está resonando.</td></tr>
-    <tr><td><strong>Flywheel</strong></td><td>Círculo virtuoso donde cada mejora refuerza la siguiente.</td><td>Reputación → mejores clientes → mejores casos → mayor reputación.</td></tr>
-    <tr><td><strong>Scenario planning</strong></td><td>Explorar varios futuros plausibles, no un solo forecast.</td><td>Útil para mercados regulados o tecnologías que cambian rápido.</td></tr>
-  </table>
-
-  <h2 class="st">23.3 Restricciones, no síntomas</h2>
-  <p>En estrategia, una <strong>constraint</strong> no es cualquier problema. Es la restricción que, si no cambias, limita el rendimiento global del sistema. Puedes mejorar diez cosas y seguir igual si la restricción central permanece intacta.</p>
-  <div class="example"><div class="example-label">Ejemplo</div>
-  <p>Si la agencia tiene buenas ideas, capacidad técnica y buena oferta, pero casi nadie nuevo entra al funnel, el problema estratégico no es “falta de disciplina”. La restricción es distribución. Ahí debes intervenir primero. Mejorar docs internas o UI del producto puede ser valioso, pero no mueve la restricción dominante.</p></div>
-
-  <h2 class="st">23.4 Secuencia estratégica — qué va antes de qué</h2>
-  <p>Muchas decisiones buenas fracasan porque se tomaron fuera de secuencia. La estrategia no solo responde qué hacer; responde <strong>cuándo hacerlo</strong>. En sistemas complejos, el orden altera el resultado.</p>
-  <div class="flow-wrap"><div class="flow-label">Secuencia estratégica básica para la agencia</div>
-  <div class="mermaid">
-flowchart LR
-  A["Posicionamiento claro"] --> B["Oferta defendible"]
-  B --> C["Canal de adquisición"]
-  C --> D["Evidencia / casos"]
-  D --> E["Escalamiento"]
-  style A fill:#181818,stroke:#C9A85C,color:#D8D0C4
-  style B fill:#101010,stroke:#4a8c7a,color:#D8D0C4
-  style C fill:#101010,stroke:#4a8c7a,color:#D8D0C4
-  style D fill:#101010,stroke:#7a5caa,color:#D8D0C4
-  style E fill:#081808,stroke:#4a8c7a,color:#6bbdaa
-  </div></div>
-  <p>Intentar escalar sin oferta clara ni evidencia previa es una inversión prematura. Intentar automatizar una distribución que todavía no funciona es automatizar el vacío. La secuencia importa porque cada etapa reduce incertidumbre para la siguiente.</p>
-
-  <h2 class="st">23.5 Strategic fit — la prueba de alineación</h2>
-  <p>Una buena oportunidad en abstracto puede ser una mala oportunidad para nosotros. El concepto de <strong>strategic fit</strong> responde eso: ¿esta oportunidad encaja con nuestra ventaja, nuestra capacidad actual, nuestra credibilidad y nuestro timing?</p>
-  <p>Cuando una idea no hace fit, incluso si parece atractiva, nos saca de foco y consume atención estratégica. El fit importa más que el brillo.</p>
-
-  <div class="callout"><div class="callout-label">Preguntas de fit</div>
-  <p>¿Entendemos el problema mejor que el promedio? ¿Podemos llegar a este cliente con fricción razonable? ¿La oportunidad refuerza el posicionamiento o lo diluye? ¿Construye un activo reutilizable o solo ingreso puntual?</p></div>
-
-  <h2 class="st">23.6 Señales líderes vs señales tardías</h2>
-  <p>Una organización que solo mira métricas tardías siempre reacciona tarde. En estrategia, las <strong>lagging indicators</strong> (ventas cerradas, churn final, ingresos trimestrales) son importantes, pero llegan cuando el fenómeno ya ocurrió. Las <strong>leading indicators</strong> son señales más tempranas: tasa de respuesta a outreach, demos aceptadas, tiempo hasta primer valor, repetición de objeciones, porcentaje de usuarios que llegan al “aha moment”.</p>
-  <p>La inteligencia estratégica consiste en diseñar y leer esas señales tempranas antes de que el problema se vuelva costoso.</p>
-
-  <h2 class="st">23.7 Moat, flywheel y posicionamiento</h2>
-  <p>Un <strong>moat</strong> es una barrera que vuelve más difícil que otros te copien y te igualen. En nuestro caso, los fosos no vienen solo de la tecnología. Vienen de la combinación de experiencia regulatoria, criterio de procesos, documentación rigurosa y capacidad de convertir eso en producto operativo con IA.</p>
-  <p>Un <strong>flywheel</strong> es distinto. No es barrera defensiva, sino mecanismo de aceleración acumulativa. Por ejemplo: mejor contenido especializado → más credibilidad → mejores conversaciones → mejores clientes → mejores casos → más contenido y credibilidad. Si diseñas bien el sistema, cada vuelta hace más fácil la siguiente.</p>
-
-  <div class="checklist"><div class="checklist-title">✓ Lo que debes poder hacer después de este capítulo</div>
-  <div class="citem"><div class="cbox"></div><span>Diferenciar una restricción real de un síntoma operativo</span></div>
-  <div class="citem"><div class="cbox"></div><span>Explicar por qué una decisión puede ser correcta pero estar fuera de secuencia</span></div>
-  <div class="citem"><div class="cbox"></div><span>Identificar señales líderes que anticipen si una oferta está funcionando</span></div>
-  <div class="citem"><div class="cbox"></div><span>Evaluar una idea con criterio de strategic fit y no solo por entusiasmo</span></div></div>
-
-  <div class="ch-nav"><button class="nav-btn" onclick="goTo('ch-22')">← 22 · Crítico</button><span class="nav-progress">23 / 26</span><button class="nav-btn" onclick="goTo('ch-24')">24 · Comunicar →</button></div>
-</section>
-
-<!-- CAP 24 -->
-<section id="ch-24" class="chapter">
-  <div class="ch-eyebrow">Capítulo 24</div>
-  <div class="ch-number">24</div>
-  <h1 class="ch-title">Comunicar con claridad</h1>
-  <p class="ch-desc">Cómo escribir, presentar, documentar y dar instrucciones de forma que el trabajo se entienda, se ejecute y se mantenga consistente sin depender de interpretaciones.</p>
-  <p class="ch-lead">“En sistemas complejos, la claridad no es estética. Es infraestructura.”</p>
-
-  <h2 class="st">24.1 Por qué la claridad multiplica capacidad</h2>
-  <p>Cuando la comunicación es vaga, el trabajo se vuelve caro. La gente interpreta. La IA rellena huecos. Los colaboradores hacen suposiciones. Los clientes leen una cosa y esperan otra. La claridad reduce retrabajo, reduce conflicto y aumenta velocidad real.</p>
-  <p>En nuestro contexto, comunicar con claridad abarca cuatro dominios: <strong>especificaciones técnicas</strong>, <strong>documentación operativa</strong>, <strong>mensajes comerciales</strong> y <strong>comunicación interpersonal</strong>. No basta con escribir bonito. Debe quedar claro qué significa cada cosa y qué acción debe ocurrir como consecuencia.</p>
-
-  <h2 class="st">24.2 Los tecnicismos que sí debemos usar — pero bien explicados</h2>
-  <table class="ctable">
-    <tr><th>Término</th><th>Qué significa</th><th>Uso correcto</th></tr>
-    <tr><td><strong>BLUF</strong></td><td><em>Bottom Line Up Front</em>. Decir la conclusión o punto principal al inicio.</td><td>Ideal para correos ejecutivos, updates y mensajes donde el lector tiene poco tiempo.</td></tr>
-    <tr><td><strong>Pyramid Principle</strong></td><td>Estructurar ideas de arriba hacia abajo: conclusión → argumentos → detalle.</td><td>Hace que documentos complejos se vuelvan navegables y persuasivos.</td></tr>
-    <tr><td><strong>Schema-first</strong></td><td>Definir primero la estructura del output o del documento.</td><td>Muy útil en prompts técnicos, specs y resultados que luego procesará otro sistema.</td></tr>
-    <tr><td><strong>Cognitive load</strong></td><td>Cantidad de esfuerzo mental que el lector necesita para entender algo.</td><td>Si un mensaje exige demasiada carga cognitiva, el lector lo abandona o lo malinterpreta.</td></tr>
-    <tr><td><strong>Information scent</strong></td><td>Señales visibles que le dicen al usuario qué va a encontrar si hace clic o sigue leyendo.</td><td>Importa en menús, CTAs, navegación y títulos de secciones.</td></tr>
-    <tr><td><strong>Semantic compression</strong></td><td>Capacidad de decir mucho con pocas palabras sin perder precisión.</td><td>No es cortar por cortar; es condensar sin volver ambiguo el mensaje.</td></tr>
-  </table>
-
-  <h2 class="st">24.3 La estructura que usamos para casi todo documento importante</h2>
-  <div class="flow-wrap"><div class="flow-label">Plantilla de claridad operativa</div>
-  <div class="mermaid">
-flowchart TD
-  A["Contexto"] --> B["Objetivo"]
-  B --> C["Restricciones"]
-  C --> D["Decisión o pedido"]
-  D --> E["Criterio de éxito"]
-  E --> F["Siguiente paso"]
-  style A fill:#181818,stroke:#C9A85C,color:#D8D0C4
-  style B fill:#101010,stroke:#4a8c7a,color:#D8D0C4
-  style C fill:#101010,stroke:#a05050,color:#D8D0C4
-  style D fill:#101010,stroke:#7a5caa,color:#D8D0C4
-  style E fill:#101010,stroke:#4a8c7a,color:#D8D0C4
-  style F fill:#081808,stroke:#4a8c7a,color:#6bbdaa
-  </div></div>
-  <p>Si falta cualquiera de esas capas, el lector tiene que adivinar. Y donde hay que adivinar, aparece el error.</p>
-
-  <h2 class="st">24.4 Qué cambia cuando le escribes a una IA</h2>
-  <p>Con personas, cierta ambigüedad puede resolverse por contexto compartido. Con IA, la ambigüedad se convierte en improvisación estadística. Por eso los prompts buenos parecen briefs: objetivo, contexto, restricciones, formato de salida y criterio de aceptación.</p>
-  <div class="example"><div class="example-label">Malo vs bueno</div>
-  <p><strong>Vago:</strong> “Hazme una propuesta mejor.”<br><br>
-  <strong>Claro:</strong> “Redacta una propuesta de una página para una clínica privada. Objetivo: vender un sistema de seguimiento de leads por WhatsApp. Tono: profesional, claro, no técnico. Incluye: problema, solución, entregables, precio y siguiente paso. No uses jerga startup ni promesas grandilocuentes.”</p></div>
-
-  <h2 class="st">24.5 Comunicación comercial, operativa y ejecutiva</h2>
-  <div class="grid-3">
-    <div class="pcard"><div class="pcard-num">①</div><div class="pcard-title">Comercial</div><p class="pcard-desc">Debe traducir funcionalidad en valor. No describe features: explica consecuencias útiles para el cliente.</p></div>
-    <div class="pcard"><div class="pcard-num">②</div><div class="pcard-title">Operativa</div><p class="pcard-desc">Debe reducir ambigüedad. Lo central es quién hace qué, cuándo y con qué criterio se considera completado.</p></div>
-    <div class="pcard"><div class="pcard-num">③</div><div class="pcard-title">Ejecutiva</div><p class="pcard-desc">Debe empezar con el punto principal. El lector quiere saber la conclusión, el riesgo y la decisión requerida.</p></div>
-  </div>
-
-  <h2 class="st">24.6 Qué arruina la claridad</h2>
-  <div class="callout-red callout"><div class="callout-label">Errores frecuentes</div>
-  <p><strong>Adjetivos sin criterio:</strong> “robusto”, “bonito”, “optimizado”, “potente”. Si no defines qué significan, no significan nada.<br><br>
-  <strong>Exceso de contexto irrelevante:</strong> mucho detalle que no cambia la decisión.<br><br>
-  <strong>Conclusión enterrada:</strong> hacer que el lector lea seis párrafos para entender qué le estás pidiendo.<br><br>
-  <strong>Tecnificación vacía:</strong> usar jerga para sonar avanzado sin mejorar precisión.<br><br>
-  <strong>Mensajes sin siguiente paso:</strong> dejan al lector informado pero inmóvil.</p></div>
-
-  <h2 class="st">24.7 El estándar de la agencia</h2>
-  <p>Queremos mensajes que un lector ocupado pueda entender rápido, sin perder matiz. Eso significa dos cosas aparentemente opuestas: <strong>precisión</strong> y <strong>legibilidad</strong>. Si un texto es preciso pero ilegible, falla. Si es legible pero ambiguo, también falla.</p>
-
-  <div class="checklist"><div class="checklist-title">✓ Lo que debes poder hacer después de este capítulo</div>
-  <div class="citem"><div class="cbox"></div><span>Aplicar BLUF y Pyramid Principle a un correo o update real</span></div>
-  <div class="citem"><div class="cbox"></div><span>Reducir la carga cognitiva de un mensaje sin volverlo superficial</span></div>
-  <div class="citem"><div class="cbox"></div><span>Escribir un prompt técnico con contexto, objetivo, restricciones y criterio de éxito</span></div>
-  <div class="citem"><div class="cbox"></div><span>Distinguir entre lenguaje técnico útil y jerga vacía</span></div></div>
-
-  <div class="ch-nav"><button class="nav-btn" onclick="goTo('ch-23')">← 23 · Estrategia</button><span class="nav-progress">24 / 26</span><button class="nav-btn" onclick="goTo('ch-25')">25 · Energía →</button></div>
-</section>
-
-<!-- CAP 25 -->
-<section id="ch-25" class="chapter">
-  <div class="ch-eyebrow">Capítulo 25</div>
-  <div class="ch-number">25</div>
-  <h1 class="ch-title">Energía cognitiva<br>y trabajo de alto valor</h1>
-  <p class="ch-desc">Cómo protegemos atención, claridad mental y capacidad de decisión en un negocio que depende de pensar, diseñar, escribir y evaluar con criterio.</p>
-  <p class="ch-lead">“En trabajos intensivos en conocimiento, la energía cognitiva es infraestructura productiva. Si la destruyes, el resto del sistema se degrada.”</p>
-
-  <h2 class="st">25.1 Qué es energía cognitiva</h2>
-  <p>Llamamos energía cognitiva a la capacidad funcional del cerebro para sostener atención, memoria de trabajo, juicio, inhibición de impulsos y procesamiento complejo durante períodos suficientes para producir trabajo de calidad. No es exactamente “ánimo”. Tampoco es pura fuerza de voluntad. Es una combinación de estado fisiológico, entorno, carga emocional y diseño del día.</p>
-  <p>En trabajos como los nuestros — estrategia, escritura, prompts, revisión técnica, toma de decisiones — el cuello de botella rara vez es “tiempo bruto”. Es calidad de atención.</p>
-
-  <h2 class="st">25.2 Los tecnicismos importantes</h2>
-  <table class="ctable">
-    <tr><th>Término</th><th>Qué significa</th><th>Por qué importa</th></tr>
-    <tr><td><strong>Working memory</strong></td><td>La memoria de trabajo: espacio mental donde sostienes variables activas al mismo tiempo.</td><td>Si saturas este sistema con interrupciones, la calidad del razonamiento cae.</td></tr>
-    <tr><td><strong>Attention residue</strong></td><td>Rastro atencional que queda cuando saltas de una tarea a otra.</td><td>El cambio constante de contexto deja parte de tu mente “pegada” a la tarea anterior.</td></tr>
-    <tr><td><strong>Context switching cost</strong></td><td>Costo mental de cambiar entre tipos de trabajo distintos.</td><td>No es solo tiempo perdido: también baja profundidad y precisión.</td></tr>
-    <tr><td><strong>Decision fatigue</strong></td><td>Deterioro del juicio después de muchas decisiones seguidas.</td><td>Las decisiones pequeñas también consumen capacidad si se acumulan.</td></tr>
-    <tr><td><strong>Ultradian rhythm</strong></td><td>Ciclos biológicos de energía dentro del día, usualmente de 90 a 120 minutos.</td><td>Ayuda a diseñar bloques de trabajo profundo más realistas que “trabajar sin parar”.</td></tr>
-    <tr><td><strong>Cognitive load</strong></td><td>Carga total que una tarea impone sobre tus recursos mentales.</td><td>Si muchas tareas medianas se acumulan, te vuelves lento incluso sin tarea “difícil”.</td></tr>
-  </table>
-
-  <h2 class="st">25.3 Qué destruye la energía cognitiva</h2>
-  <div class="grid-3">
-    <div class="pcard"><div class="pcard-num">①</div><div class="pcard-title">Interrupciones constantes</div><p class="pcard-desc">Mensajes, notificaciones y cambios de ventana rompen la continuidad del pensamiento.</p></div>
-    <div class="pcard"><div class="pcard-num">②</div><div class="pcard-title">Ambigüedad crónica</div><p class="pcard-desc">No saber qué hacer primero consume energía incluso antes de empezar.</p></div>
-    <div class="pcard"><div class="pcard-num">③</div><div class="pcard-title">Privación de sueño</div><p class="pcard-desc">Reduce memoria de trabajo, control inhibitorio, creatividad y calidad de juicio.</p></div>
-    <div class="pcard"><div class="pcard-num">④</div><div class="pcard-title">Exceso de microdecisiones</div><p class="pcard-desc">Decidir todo en tiempo real desgasta la mente antes de llegar al trabajo importante.</p></div>
-    <div class="pcard"><div class="pcard-num">⑤</div><div class="pcard-title">Sobrecarga emocional</div><p class="pcard-desc">La ansiedad y el conflicto no son solo estados anímicos; consumen ancho de banda cognitivo.</p></div>
-    <div class="pcard"><div class="pcard-num">⑥</div><div class="pcard-title">Fricción ambiental</div><p class="pcard-desc">Herramientas desordenadas, tabs infinitas, archivos dispersos y prompts caóticos aumentan carga innecesaria.</p></div>
-  </div>
-
-  <h2 class="st">25.4 Diseño del día para trabajo de alto valor</h2>
-  <div class="flow-wrap"><div class="flow-label">Patrón mínimo de energía cognitiva</div>
-  <div class="mermaid">
-flowchart TD
-  A["Captura rápida\npendientes y ruido"] --> B["Bloque profundo 1\n90-120 min"]
-  B --> C["Pausa real\nsin pantalla o baja carga"]
-  C --> D["Bloque profundo 2\nsi el día lo permite"]
-  D --> E["Trabajo ligero\ncoordinación, correos, revisión"]
-  style A fill:#101010,stroke:#242424,color:#D8D0C4
-  style B fill:#181818,stroke:#4a8c7a,color:#D8D0C4
-  style C fill:#181400,stroke:#C9A85C,color:#D8D0C4
-  style D fill:#181818,stroke:#4a8c7a,color:#D8D0C4
-  style E fill:#101010,stroke:#7a5caa,color:#D8D0C4
-  </div></div>
-  <p>La idea no es volver el día rígido. Es proteger los bloques donde ocurre trabajo que no se puede producir bien en modo fragmentado: arquitectura, escritura crítica, lectura estratégica, decisiones complejas, evaluación de outputs y diseño de procesos.</p>
-
-  <h2 class="st">25.5 Reglas operativas que nos protegen</h2>
-  <div class="callout"><div class="callout-label">Reglas</div>
-  <p><strong>1. No mezclar todo el día trabajo profundo con coordinación.</strong> Son modos cognitivos distintos.<br><br>
-  <strong>2. Capturar antes de atender.</strong> Cuando surge algo, se registra; no necesariamente se ejecuta en ese instante.<br><br>
-  <strong>3. Diseñar defaults.</strong> Plantillas, SOPs, horarios, estructuras y checklists reducen microdecisiones.<br><br>
-  <strong>4. Cerrar ciclos visibles.</strong> La mente se desgasta más cuando acumula demasiados bucles abiertos.<br><br>
-  <strong>5. Proteger el sueño.</strong> El sueño no “quita horas”; protege la calidad de las horas que quedan.</p></div>
-
-  <h2 class="st">25.6 Qué significa descansar de verdad</h2>
-  <p>Descansar no es solo dejar de trabajar. Es reducir carga cognitiva. Hay descansos que no descansan: doomscrolling, multitasking ligero, saltar entre chats. A veces la mente sigue procesando ruido aunque el cuerpo esté sentado.</p>
-  <p>El descanso útil en nuestro contexto tiene una función: permitir que el sistema nervioso y la atención vuelvan a un estado donde el trabajo profundo sea posible otra vez.</p>
-
-  <h2 class="st">25.7 La relación entre energía y calidad estratégica</h2>
-  <p>Cuando baja la energía cognitiva, empeora todo: se reducen matices, aumenta la impulsividad, se sobrerreacciona a lo urgente y se eligen soluciones fáciles en lugar de correctas. Por eso proteger energía no es un tema de bienestar aislado; es una decisión de calidad operativa.</p>
-
-  <div class="checklist"><div class="checklist-title">✓ Lo que debes poder hacer después de este capítulo</div>
-  <div class="citem"><div class="cbox"></div><span>Explicar qué es attention residue y cómo afecta el trabajo profundo</span></div>
-  <div class="citem"><div class="cbox"></div><span>Distinguir entre trabajo profundo, trabajo ligero y coordinación</span></div>
-  <div class="citem"><div class="cbox"></div><span>Diseñar un día de trabajo que proteja al menos un bloque cognitivo de alto valor</span></div>
-  <div class="citem"><div class="cbox"></div><span>Reconocer señales de fatiga de decisión antes de tomar una decisión importante</span></div></div>
-
-  <div class="ch-nav"><button class="nav-btn" onclick="goTo('ch-24')">← 24 · Claridad</button><span class="nav-progress">25 / 26</span><button class="nav-btn" onclick="goTo('ch-26')">26 · Biblioteca →</button></div>
-</section>
-
-<!-- CAP 26 -->
-<section id="ch-26" class="chapter">
-  <div class="ch-eyebrow">Capítulo 26 · Cierre ampliado</div>
-  <div class="ch-number">26</div>
-  <h1 class="ch-title">Biblioteca de los 9 libros</h1>
-  <p class="ch-desc">Los nueve libros que mejor sostienen la filosofía, la operación y la evolución intelectual de la agencia. No son lectura decorativa; son piezas de infraestructura mental.</p>
-  <p class="ch-lead">“No leemos para acumular citas. Leemos para construir mejores marcos de decisión.”</p>
-
-  <h2 class="st">26.1 La lógica de esta biblioteca</h2>
-  <p>Esta no es una lista de “libros buenos”. Es una biblioteca funcional. Cada libro cubre una capacidad específica que la agencia necesita: pensar en sistemas, validar mercado, tomar mejores decisiones, comunicar con precisión, diseñar trabajo y sostener foco.</p>
-  <p>Si el manual es el <strong>sistema operativo</strong>, estos libros son librerías de alto nivel que expanden ese sistema.</p>
-
-  <table class="ctable">
-    <tr><th>#</th><th>Libro</th><th>Capacidad principal</th><th>Por qué está aquí</th></tr>
-    <tr><td>1</td><td><strong>Thinking in Systems</strong> — Donella Meadows</td><td>Pensamiento sistémico</td><td>Da el lenguaje y la lógica para ver problemas como sistemas, no eventos aislados.</td></tr>
-    <tr><td>2</td><td><strong>The Fifth Discipline</strong> — Peter Senge</td><td>Aprendizaje organizacional</td><td>Ayuda a entender bucles, retrasos, feedback y por qué las organizaciones repiten errores.</td></tr>
-    <tr><td>3</td><td><strong>The Mom Test</strong> — Rob Fitzpatrick</td><td>Validación de mercado</td><td>Vacuna contra entrevistas inútiles y halagos engañosos.</td></tr>
-    <tr><td>4</td><td><strong>Continuous Discovery Habits</strong> — Teresa Torres</td><td>Discovery continuo</td><td>Convierte el descubrimiento de usuario en una práctica semanal y no en un evento aislado.</td></tr>
-    <tr><td>5</td><td><strong>Shape Up</strong> — Ryan Singer / Basecamp</td><td>Scoping y ejecución bajo incertidumbre</td><td>Excelente para proyectos ambiguos donde Scrum no basta.</td></tr>
-    <tr><td>6</td><td><strong>Thinking in Bets</strong> — Annie Duke</td><td>Decisión bajo incertidumbre</td><td>Enseña a pensar en probabilidades y a separar calidad de decisión de resultado.</td></tr>
-    <tr><td>7</td><td><strong>Good Strategy/Bad Strategy</strong> — Richard Rumelt</td><td>Estrategia real</td><td>Ayuda a distinguir estrategia de slogans, aspiraciones y listas de deseos.</td></tr>
-    <tr><td>8</td><td><strong>The Pyramid Principle</strong> — Barbara Minto</td><td>Comunicación estructurada</td><td>Clave para escribir con lógica ejecutiva, claridad y jerarquía argumental.</td></tr>
-    <tr><td>9</td><td><strong>Deep Work</strong> — Cal Newport</td><td>Foco y energía cognitiva</td><td>Protege la capacidad de producir trabajo complejo en un entorno de interrupciones.</td></tr>
-  </table>
-
-  <h2 class="st">26.2 Qué aporta cada libro — explicado en términos operativos</h2>
-
-  <div class="example"><div class="example-label">1. Thinking in Systems</div>
-  <p>No es solo un libro sobre sistemas; es un cambio de lente. Introduce conceptos como <strong>feedback loops</strong>, <strong>stocks and flows</strong> y <strong>leverage points</strong>. En lenguaje simple: te enseña a ver cómo algo se acumula, qué lo alimenta, qué lo drena y dónde una intervención pequeña puede cambiar mucho. Sin esa lente, terminas atacando síntomas.</p></div>
-
-  <div class="example"><div class="example-label">2. The Fifth Discipline</div>
-  <p>Te obliga a pensar en organizaciones como sistemas de aprendizaje. El concepto más importante aquí es el de <strong>delayed consequences</strong>: acciones que parecen ayudar hoy pero empeoran el sistema después. Muy útil para producto, operaciones y relaciones de largo plazo.</p></div>
-
-  <div class="example"><div class="example-label">3. The Mom Test</div>
-  <p>Su valor está en la brutalidad metodológica. Te enseña a reemplazar opiniones por hechos observables. Después de leerlo, te vuelves mucho menos vulnerable a “sí, suena interesante” como falsa validación.</p></div>
-
-  <div class="example"><div class="example-label">4. Continuous Discovery Habits</div>
-  <p>Convierte discovery en sistema. Introduce la práctica de entrevistas semanales, árboles de oportunidad y aprendizaje continuo. Es uno de los mejores antídotos contra construir a ciegas.</p></div>
-
-  <div class="example"><div class="example-label">5. Shape Up</div>
-  <p>Enseña algo crucial: antes de construir, debes <strong>shape the work</strong>. Eso significa darle forma suficiente a una apuesta para que el build no empiece ambiguo. Excelente para equipos pequeños con ambición alta.</p></div>
-
-  <div class="example"><div class="example-label">6. Thinking in Bets</div>
-  <p>Te entrena a hablar en términos de probabilidades, calibración y revisión de decisiones. Muy valioso cuando trabajas con mercados inciertos, IA, producto y ventas.</p></div>
-
-  <div class="example"><div class="example-label">7. Good Strategy/Bad Strategy</div>
-  <p>Rumelt destruye la idea de que estrategia es “visión + motivación”. Una estrategia real contiene diagnóstico, política guía y acciones coherentes. Todo lo demás es decoración verbal.</p></div>
-
-  <div class="example"><div class="example-label">8. The Pyramid Principle</div>
-  <p>Es probablemente el libro más útil para escribir documentos ejecutivos, proposals, updates y razonamientos complejos. Enseña a empezar por la conclusión y luego bajar al soporte — no al revés.</p></div>
-
-  <div class="example"><div class="example-label">9. Deep Work</div>
-  <p>Ayuda a proteger el recurso que más necesitamos: atención sostenida. Hace explícito el costo del ruido digital y por qué el trabajo valioso no aparece en modo fragmentado.</p></div>
-
-  <h2 class="st">26.3 Orden de lectura recomendado</h2>
-  <div class="timeline">
-    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Nivel 1 · Base</div><div class="tl-title">Thinking in Systems → The Mom Test → Deep Work</div><p class="tl-desc">Primero cambias tu lente, luego aprendes a validar mejor y finalmente proteges la energía para operar con esa nueva calidad.</p></div>
-    <div class="tl-item"><div class="tl-dot"></div><div class="tl.phase">Nivel 2 · Ejecución</div><div class="tl-title">Continuous Discovery Habits → Shape Up → The Pyramid Principle</div><p class="tl-desc">Aquí conviertes pensamiento en procesos de descubrimiento, scoping y comunicación estructurada.</p></div>
-    <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Nivel 3 · Dirección</div><div class="tl-title">Thinking in Bets → Good Strategy/Bad Strategy → The Fifth Discipline</div><p class="tl-desc">Finalmente fortaleces decisión, estrategia y visión organizacional de largo plazo.</p></div>
-  </div>
-
-  <h2 class="st">26.4 Cómo leerlos sin volver la lectura improductiva</h2>
-  <div class="callout"><div class="callout-label">Método de lectura operativa</div>
-  <p><strong>1.</strong> No leas para terminar; lee para extraer marcos.<br><br>
-  <strong>2.</strong> Después de cada capítulo, escribe: “¿cómo cambia esto una decisión real de la agencia?”<br><br>
-  <strong>3.</strong> Convierte ideas en checklists, preguntas, templates o reglas.<br><br>
-  <strong>4.</strong> Si una idea no cambia comportamiento, todavía no fue incorporada al sistema.</p></div>
-
-  <div class="callout-green callout" style="margin-top:48px"><div class="callout-label">Cierre</div>
-  <p>Con el Bloque VII, el manual deja de ser solo un mapa para empezar y se vuelve un marco para evolucionar. Lo anterior enseña a operar. Esto enseña a elevar el nivel del juego.<br><br>
-  <em>La agencia no crece solo porque hace más. Crece cuando piensa mejor.</em></p></div>
-
-  <div class="ch-nav"><button class="nav-btn" onclick="goTo('ch-25')">← 25 · Energía</button><span class="nav-progress">26 / 26</span><button class="nav-btn off">→</button></div>
-</section>`;
-
-    function applyEnhancements() {
-      try {
-        const doc = frame.contentDocument || frame.contentWindow.document;
-        if (!doc) return;
-
-        let style = doc.getElementById('visibility-upgrade-style');
-        if (!style) {
-          style = doc.createElement('style');
-          style.id = 'visibility-upgrade-style';
-          style.textContent = injectedCss;
-          doc.head.appendChild(style);
-        }
-
-        if (!doc.querySelector('.nav-block[data-block="advanced"]')) {
-          const nav = doc.getElementById('sidebar-nav');
-          const marker = [...nav.querySelectorAll('.nav-item')].find(el => el.getAttribute('onclick')?.includes("ch-20"));
-          if (marker) {
-            marker.insertAdjacentHTML('afterend', `
-              <div class="nav-block" data-block="advanced">Bloque VII · Capacidades avanzadas</div>
-              <div class="nav-item" onclick="goTo('ch-21')"><span class="nav-num">21</span>Orquestar múltiples IAs</div>
-              <div class="nav-item" onclick="goTo('ch-22')"><span class="nav-num">22</span>Pensamiento crítico</div>
-              <div class="nav-item" onclick="goTo('ch-23')"><span class="nav-num">23</span>Inteligencia estratégica</div>
-              <div class="nav-item" onclick="goTo('ch-24')"><span class="nav-num">24</span>Comunicar con claridad</div>
-              <div class="nav-item" onclick="goTo('ch-25')"><span class="nav-num">25</span>Energía cognitiva</div>
-              <div class="nav-item" onclick="goTo('ch-26')"><span class="nav-num">26</span>Biblioteca de los 9 libros</div>
-            `);
-          }
-        }
-
-        if (!doc.getElementById('ch-21')) {
-          doc.getElementById('main').insertAdjacentHTML('beforeend', blockVIIHtml);
-        }
-
-        const ch20Nav = doc.querySelector('#ch-20 .ch-nav');
-        if (ch20Nav && !ch20Nav.dataset.extended) {
-          ch20Nav.dataset.extended = 'true';
-          ch20Nav.innerHTML = `<button class="nav-btn" onclick="goTo('ch-19')">← 19 · Playbooks</button><span class="nav-progress">20 / 26</span><button class="nav-btn" onclick="goTo('ch-21')">21 · Orquestación →</button>`;
-        }
-
-        if (!doc.documentElement.dataset.extendedOrder) {
-          doc.documentElement.dataset.extendedOrder = 'true';
-          const extendedOrder = ['ch-cover','ch-prologo','ch-carta','ch-manifiesto','ch-01','ch-02','ch-03','ch-04','ch-05','ch-06','ch-07','ch-08','ch-09','ch-10','ch-11','ch-12','ch-13','ch-14','ch-15','ch-16','ch-17','ch-18','ch-19','ch-20','ch-21','ch-22','ch-23','ch-24','ch-25','ch-26'];
-          doc.addEventListener('keydown', (e) => {
-            const cur = doc.querySelector('.chapter.visible');
-            if (!cur) return;
-            const i = extendedOrder.indexOf(cur.id);
-            if (e.key === 'ArrowRight' && i < extendedOrder.length - 1) {
-              e.preventDefault();
-              frame.contentWindow.goTo(extendedOrder[i + 1]);
-            }
-            if (e.key === 'ArrowLeft' && i > 0) {
-              e.preventDefault();
-              frame.contentWindow.goTo(extendedOrder[i - 1]);
-            }
-          }, true);
-        }
-
-        loading.classList.add('hidden');
-      } catch (err) {
-        console.error('No se pudieron aplicar mejoras visuales al manual:', err);
-        loading.classList.add('hidden');
-      }
-    }
-
-    frame.addEventListener('load', () => {
-      applyEnhancements();
-      setTimeout(applyEnhancements, 400);
-      setTimeout(applyEnhancements, 1200);
-    });
-  </script>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="panel hero-copy">
+          <div class="eyebrow">Agencia de producto + ejecución</div>
+          <h1>Construimos <span>aplicaciones, flujos con IA y sistemas operables</span> para negocios que necesitan velocidad, claridad y entrega seria.</h1>
+          <p>Diseñamos, estructuramos y llevamos productos desde la idea validada hasta una baseline lista para construir, iterar o lanzar. Nuestro enfoque mezcla producto, arquitectura, documentación, privacidad, seguridad y ejecución por slices.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/dossier.html">Ver nuestro dossier</a>
+            <a class="btn" href="#capabilities">Explorar capacidades</a>
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-value">5</div>
+              <div class="metric-label">etapas operativas</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">19</div>
+              <div class="metric-label">capacidades de agencia</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">1</div>
+              <div class="metric-label">dossier inicial publicado</div>
+            </div>
+          </div>
+        </div>
+        <div class="panel hero-side">
+          <div class="side-card">
+            <h3>Cómo trabajamos</h3>
+            <p>No operamos como una fábrica de features. Operamos como un sistema: discovery, validación, estrategia, arquitectura, build-readiness, calidad y salida controlada.</p>
+            <div class="kpi-pills">
+              <span class="pill">Producto</span>
+              <span class="pill">Apps móviles</span>
+              <span class="pill">Dashboards</span>
+              <span class="pill">IA aplicada</span>
+              <span class="pill">Governance</span>
+            </div>
+          </div>
+          <div class="side-card">
+            <h3>Qué entregamos</h3>
+            <p>Specs ejecutables, arquitectura clara, prompts de trabajo, slices priorizados, readiness de lanzamiento, material comercial y documentación que sirve como fuente de verdad.</p>
+          </div>
+          <div class="side-card">
+            <h3>Para quién encaja</h3>
+            <p>Equipos y fundadores que necesitan avanzar sin perder disciplina: SaaS, operaciones, compliance, telemática ligera, dashboards de decisión y software con una capa real de IA.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Sección 2 · Sistema de capacidades</div>
+            <h2>Mapa operativo de capacidades</h2>
+            <p>Esta sección se agrega como una capa nueva al sitio y ordena la forma en que la agencia descubre, valida, diseña, construye y entrega. Está basada en el skills map que compartiste, pero reescrita como capacidad institucional de la agencia y sin exponer habilidades personales. fileciteturn24file0</p>
+          </div>
+        </div>
+
+        <div class="pipeline">
+          <div class="pipeline-node node-idea">Idea</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-node node-validate">Validar</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-node node-strategy">Estrategia</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-node node-build">Arquitectura & build</div>
+          <div class="pipeline-arrow">→</div>
+          <div class="pipeline-node node-deliver">Ship & calidad</div>
+        </div>
+
+        <div class="flow-box">
+          <h3>Cómo se enlaza nuestra operación</h3>
+          <div class="flow-list">
+            <div class="flow-item">
+              <div class="flow-num">1</div>
+              <div>
+                <strong>Generamos o recibimos una oportunidad</strong> y la transformamos en una hipótesis utilizable. No empezamos construyendo; empezamos decidiendo si la oportunidad merece energía.
+                <div class="flow-tags"><span class="flow-tag tag-violet">discovery</span></div>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-num">2</div>
+              <div>
+                <strong>Validamos mercado, dolor y disposición a pagar.</strong> El objetivo es llegar a una decisión operable: avanzar, ajustar o descartar.
+                <div class="flow-tags"><span class="flow-tag tag-amber">validación</span></div>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-num">3</div>
+              <div>
+                <strong>Definimos la estrategia del producto</strong>: MVP, pricing, canal, narrativa comercial, riesgos y posición frente al mercado.
+                <div class="flow-tags"><span class="flow-tag tag-cyan">producto</span><span class="flow-tag tag-cyan">revenue</span><span class="flow-tag tag-cyan">go-to-market</span></div>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-num">4</div>
+              <div>
+                <strong>Arquitectamos el sistema y el plan de build.</strong> Aquí bajamos la idea a contratos, componentes, flujos, RAG si aplica, y brief ejecutable para herramientas de build.
+                <div class="flow-tags"><span class="flow-tag tag-green">systems design</span><span class="flow-tag tag-green">contracts</span><span class="flow-tag tag-green">specs</span></div>
+              </div>
+            </div>
+            <div class="flow-item">
+              <div class="flow-num">5</div>
+              <div>
+                <strong>Entregamos con calidad y documentación.</strong> Pruebas, criterios de aceptación, documentación viva, artefactos profesionales y soporte para salida comercial o técnica.
+                <div class="flow-tags"><span class="flow-tag tag-rose">QA</span><span class="flow-tag tag-rose">docs</span><span class="flow-tag tag-rose">delivery</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="category-grid">
+          <div class="category">
+            <div class="category-head">
+              <div class="category-title"><span class="dot" style="background:var(--violet)"></span>Generación de oportunidades</div>
+              <div class="category-count">1 capacidad</div>
+            </div>
+            <div class="skill-grid">
+              <div class="skill-card theme-violet">
+                <div class="skill-top"><div class="skill-icon">💡</div><div class="badge">Inicio</div></div>
+                <h4>Discovery guiado</h4>
+                <p>Exploramos oportunidades con una lógica de consejo multi-fuente: problema, señales de mercado, alternativas y veredicto preliminar.</p>
+                <div class="skill-trigger">Ideal para nuevos productos, pivot de ideas o búsqueda de nichos con dolor real.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-head">
+              <div class="category-title"><span class="dot" style="background:var(--amber)"></span>Validación</div>
+              <div class="category-count">1 capacidad</div>
+            </div>
+            <div class="skill-grid">
+              <div class="skill-card theme-amber">
+                <div class="skill-top"><div class="skill-icon">🔎</div><div class="badge">Gate</div></div>
+                <h4>Validación de mercado</h4>
+                <p>Convertimos intuiciones en evidencia: mercado accesible, competencia real, señales de compra, riesgos, condiciones GO / NO-GO / GO-IF.</p>
+                <div class="skill-trigger">Se usa antes de comprometer semanas de build o una narrativa comercial fuerte.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-head">
+              <div class="category-title"><span class="dot" style="background:var(--cyan)"></span>Estrategia de producto & negocio</div>
+              <div class="category-count">3 capacidades</div>
+            </div>
+            <div class="skill-grid">
+              <div class="skill-card theme-cyan">
+                <div class="skill-top"><div class="skill-icon">🎯</div><div class="badge">Producto</div></div>
+                <h4>Definición de MVP</h4>
+                <p>Acotamos el producto, el usuario, la propuesta de valor, los módulos in-scope y el primer corte que sí merece salir.</p>
+              </div>
+              <div class="skill-card theme-cyan">
+                <div class="skill-top"><div class="skill-icon">💰</div><div class="badge">Revenue</div></div>
+                <h4>Pricing y unit economics</h4>
+                <p>Estructuramos pricing, lógica de tiers, CAC/LTV, break-even y viabilidad financiera básica sin adivinar.</p>
+              </div>
+              <div class="skill-card theme-cyan">
+                <div class="skill-top"><div class="skill-icon">📣</div><div class="badge">GTM</div></div>
+                <h4>Narrativa y go-to-market</h4>
+                <p>Traducimos el producto a oferta comercial: posicionamiento, messaging, páginas, contenido y primeros canales de adquisición.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-head">
+              <div class="category-title"><span class="dot" style="background:var(--green)"></span>Arquitectura & build-readiness</div>
+              <div class="category-count">7 capacidades</div>
+            </div>
+            <div class="skill-grid">
+              <div class="skill-card theme-green">
+                <div class="skill-top"><div class="skill-icon">🏛️</div><div class="badge">Arquitectura</div></div>
+                <h4>Systems design</h4>
+                <p>Diseñamos estructura general, capas, dependencias, posture de seguridad y decisiones base antes de que empiece el build.</p>
+              </div>
+              <div class="skill-card theme-green">
+                <div class="skill-top"><div class="skill-icon">🔍</div><div class="badge">RAG</div></div>
+                <h4>Arquitectura RAG</h4>
+                <p>Definimos cómo entra, se indexa, se recupera y se gobierna conocimiento propio cuando el producto necesita grounding documental.</p>
+              </div>
+              <div class="skill-card theme-green">
+                <div class="skill-top"><div class="skill-icon">🔗</div><div class="badge">Contracts</div></div>
+                <h4>Contratos de integración</h4>
+                <p>Formalizamos payloads, reglas, estructuras y ejemplos para que backend, frontend y servicios externos se hablen sin drift.</p>
+              </div>
+              <div class="skill-card theme-green">
+                <div class="skill-top"><div class="skill-icon">⚙️</div><div class="badge">Spec</div></div>
+                <h4>Spec técnico ejecutable</h4>
+                <p>Transformamos ideas vagas en brief técnico listo para herramientas de construcción y equipos de implementación.</p>
+              </div>
+              <div class="skill-card theme-green">
+                <div class="skill-top"><div class="skill-icon">📋</div><div class="badge">Brief</div></div>
+                <h4>Project brief maestro</h4>
+                <p>Empaquetamos el proyecto en un documento que sirve como fuente de verdad para slices, handoffs y sesiones de código.</p>
+              </div>
+              <div class="skill-card theme-green">
+                <div class="skill-top"><div class="skill-icon">🐙</div><div class="badge">Repo</div></div>
+                <h4>Contexto de repositorio</h4>
+                <p>Leemos la lógica y el estado de un repo existente para continuar trabajo real sin reiniciar desde cero.</p>
+              </div>
+              <div class="skill-card theme-green">
+                <div class="skill-top"><div class="skill-icon">📅</div><div class="badge">Planning</div></div>
+                <h4>Planificación por slices</h4>
+                <p>Organizamos backlog, milestones, riesgos y secuencia de ejecución para que el build avance con control.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-head">
+              <div class="category-title"><span class="dot" style="background:var(--rose)"></span>Calidad, mantenimiento y salida</div>
+              <div class="category-count">4 capacidades</div>
+            </div>
+            <div class="skill-grid">
+              <div class="skill-card theme-rose">
+                <div class="skill-top"><div class="skill-icon">🧪</div><div class="badge">QA</div></div>
+                <h4>Testing y criterios de aceptación</h4>
+                <p>Definimos casos de prueba, release gates, checklists y señales de que una slice merece merge o salida.</p>
+              </div>
+              <div class="skill-card theme-rose">
+                <div class="skill-top"><div class="skill-icon">✍️</div><div class="badge">Prompts</div></div>
+                <h4>Prompting y ajuste fino</h4>
+                <p>Diagnosticamos prompts, mejoramos system prompts y reducimos inconsistencia cuando el modelo se comporta mal.</p>
+              </div>
+              <div class="skill-card theme-rose">
+                <div class="skill-top"><div class="skill-icon">📝</div><div class="badge">Docs</div></div>
+                <h4>Documentación viva</h4>
+                <p>Mantenemos briefs, decisiones, handoffs y cambios actualizados para que el proyecto no derive silenciosamente.</p>
+              </div>
+              <div class="skill-card theme-rose">
+                <div class="skill-top"><div class="skill-icon">🔎</div><div class="badge">Review</div></div>
+                <h4>Auditoría y revisión integral</h4>
+                <p>Aplicamos una mirada de riesgo, control, gobernanza y consistencia sobre procesos, producto y operación.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="category">
+            <div class="category-head">
+              <div class="category-title"><span class="dot" style="background:#c2c2e9"></span>Artefactos y salida profesional</div>
+              <div class="category-count">3 capacidades</div>
+            </div>
+            <div class="skill-grid">
+              <div class="skill-card theme-soft">
+                <div class="skill-top"><div class="skill-icon">📄</div><div class="badge">Docs</div></div>
+                <h4>Documentos ejecutivos</h4>
+                <p>Generamos propuestas, reportes, one-pagers, presentaciones y material formal para ventas, stakeholders o implementación.</p>
+              </div>
+              <div class="skill-card theme-soft">
+                <div class="skill-top"><div class="skill-icon">📊</div><div class="badge">Data</div></div>
+                <h4>Tablas, hojas y artefactos</h4>
+                <p>Convertimos decisiones y análisis en activos utilizables: spreadsheets, matrices, PDFs y soportes operativos.</p>
+              </div>
+              <div class="skill-card theme-soft">
+                <div class="skill-top"><div class="skill-icon">🎨</div><div class="badge">UI</div></div>
+                <h4>Frontend y artefactos web</h4>
+                <p>Diseñamos interfaces, páginas de producto, dashboards y materiales web listos para mostrar, iterar o desplegar.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Servicios</div>
+            <h2>Qué hacemos como agencia</h2>
+            <p>Entramos donde más valor produce la claridad: producto, arquitectura, aplicaciones, dashboards, IA aplicada, documentación y readiness operativo.</p>
+          </div>
+        </div>
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Diseño de producto</h3>
+            <p>Problema, usuario, MVP, pricing, roadmap, trade-offs y narrativa de valor defendible.</p>
+          </div>
+          <div class="service-card">
+            <h3>Desarrollo de aplicaciones</h3>
+            <p>Apps móviles, paneles web, flujos con backend y software operativo con una capa clara de build-readiness.</p>
+          </div>
+          <div class="service-card">
+            <h3>IA aplicada</h3>
+            <p>Asistentes, RAG, automatización de tareas intensivas en conocimiento, prompts y contratos de salida.</p>
+          </div>
+          <div class="service-card">
+            <h3>Governance & privacidad</h3>
+            <p>Privacidad por diseño, materiales de disclosure, postura de seguridad y controles mínimos de lanzamiento.</p>
+          </div>
+          <div class="service-card">
+            <h3>Documentación seria</h3>
+            <p>Project briefs, specs, release gates, changelogs, decision docs, handoffs y material comercial consistente.</p>
+          </div>
+          <div class="service-card">
+            <h3>Entrega por slices</h3>
+            <p>Reducimos riesgo dividiendo el trabajo en etapas verificables con aceptación clara y evidencias de progreso.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Primer caso publicado</div>
+            <h2>FleetPulse entra a nuestro dossier</h2>
+            <p>El primer proyecto del dossier se presenta como lo que realmente es: una solución BYOD de telemática ligera para flotas SMB, estructurada con disciplina de producto, arquitectura, privacidad, score engine y ejecución por slices.</p>
+          </div>
+        </div>
+        <div class="case-grid">
+          <div class="case-card featured">
+            <h3>FleetPulse Lite</h3>
+            <p>Producto de telemática ligera para flotas pequeñas y medianas que convierte el smartphone del conductor en una fuente de señales de viaje, eventos de conducción, scoring básico y visibilidad operativa.</p>
+            <div class="case-meta">
+              <span class="meta-chip">BYOD telematics</span>
+              <span class="meta-chip">Android-first v1</span>
+              <span class="meta-chip">Dashboard admin</span>
+              <span class="meta-chip">Privacy-ready posture</span>
+              <span class="meta-chip">Build-ready baseline</span>
+            </div>
+            <a class="btn btn-primary" href="/fleet-pulse.html">Ver dossier completo</a>
+          </div>
+          <div class="case-card">
+            <h3>Nuestro dossier</h3>
+            <p>Portafolio vivo de proyectos descritos con postura honesta: qué es, qué resuelve, qué se entregó, qué sigue abierto y qué tipo de agencia somos al ejecutar.</p>
+            <div class="case-meta">
+              <span class="meta-chip">1 proyecto publicado</span>
+            </div>
+            <a class="btn" href="/dossier.html">Abrir dossier</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="cta-panel">
+        <div>
+          <h3>¿Quieres presentar tus proyectos con esta misma seriedad?</h3>
+          <p>Podemos convertir una idea, un repo o una baseline documental en una página clara, una arquitectura defendible y un dossier listo para mostrar o ejecutar.</p>
+        </div>
+        <a class="btn btn-primary" href="/dossier.html">Ir a nuestro dossier</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-row">
+      <div>Casventur Agency · desarrollo de aplicaciones, sistemas con IA y entregables operables</div>
+      <div><a href="/dossier.html">Nuestro dossier</a> · <a href="/manual.html">Manual</a></div>
+    </div>
+  </footer>
 </body>
 </html>
